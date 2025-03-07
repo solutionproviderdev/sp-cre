@@ -14,10 +14,23 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/features/strore';
 import { getAsyncStorageData } from '@/features/slices/auth/AuthSlice';
 import { checkTokenAndLogout } from '@/hooks/checkTokenAndLogout';
+import { StatusBar } from 'expo-status-bar';
 
 const WelcomeScreen = () => {
 	const router = useRouter();
 	const { width } = Dimensions.get('window');
+
+
+		useEffect(() => {
+			const checkToken = async () => {
+				const token = await getAsyncStorageData('token');
+
+				// Check token validity, and if invalid, handle logout
+				checkTokenAndLogout(token);
+			};
+
+			checkToken();
+		}, []);
 
 	const handleVerify = async () => {
 		try {
@@ -36,19 +49,11 @@ const WelcomeScreen = () => {
 		}
 	};
 
-	useEffect(() => {
-		const checkToken = async () => {
-			const token = await getAsyncStorageData('token');
 
-			// Check token validity, and if invalid, handle logout
-			checkTokenAndLogout(token);
-		};
-
-		checkToken();
-	}, []);
 	return (
 		<SafeAreaView className="flex-1 bg-white">
 			{/* Main Content Container */}
+			{/* <StatusBar barstyle='dark-contest'/> */}
 			<View className="flex-1 justify-center items-center px-4">
 				{/* Logo Section */}
 				<View className="justify-center items-center mt-80 mb-32">

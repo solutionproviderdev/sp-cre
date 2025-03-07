@@ -1,0 +1,6 @@
+1.production build done now i can update in production 
+2.development build also done 
+
+
+#after make some validataon or handlaing error i will update production and then i will left development if development has no benefit   
+ill just change the code and then update the production.
