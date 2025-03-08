@@ -16,12 +16,13 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.solutionprovider.myapp"
+      "package": "com.solutionprovider.myapp",
+      "jsEngine": "jsc"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/icon.png"
     },
     "plugins": [
       "expo-router",
@@ -47,7 +48,8 @@
     },
     "extra": {
       "router": {
-        "origin": false
+        "origin": false,
+        "initialRouteName": "index"
       },
       "eas": {
         "projectId": "bfb1a96f-cd00-4870-8f29-1898f3405abe"

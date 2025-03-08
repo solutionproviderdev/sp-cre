@@ -71,6 +71,7 @@ type GetAllUsersResponse = User[];
 const socket = getSocket();
 
 const authApi = apiSlice.injectEndpoints({
+ 
 	endpoints: builder => ({
 		// User login
 		loginUser: builder.mutation<
@@ -195,7 +196,7 @@ const authApi = apiSlice.injectEndpoints({
 			invalidatesTags: (result, error, { id }) => [{ type: 'Lead', id }],
 		}),
 	}),
-	overrideExisting: false,
+	overrideExisting: true,
 });
 
 // Export hooks for each endpoint

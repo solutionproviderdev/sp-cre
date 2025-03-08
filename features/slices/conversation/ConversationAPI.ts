@@ -251,6 +251,7 @@ interface ErrorResponse {
 const socket = getSocket();
 
 const conversationApi = apiSlice.injectEndpoints({
+	 
 	endpoints: builder => ({
 		createLeadWithNumber: builder.mutation<
 			{ msg: string; lead: Lead },
@@ -597,7 +598,7 @@ const conversationApi = apiSlice.injectEndpoints({
 			invalidatesTags: (result, error, { id }) => [{ type: 'Lead', id }],
 		}),
 	}),
-	overrideExisting: false,
+	overrideExisting: true,
 });
 
 // Export hooks for use in components

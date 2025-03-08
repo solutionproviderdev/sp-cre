@@ -1,113 +1,152 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import {
-	View,
-	Text,
-	Image,
-	TouchableOpacity,
-	SafeAreaView,
-	Dimensions,
-	AppState,
-} from 'react-native';
-import { useRouter } from 'expo-router';
-import * as SecureStore from 'expo-secure-store';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/features/strore';
-import { getAsyncStorageData } from '@/features/slices/auth/AuthSlice';
-import { checkTokenAndLogout } from '@/hooks/checkTokenAndLogout';
-import { StatusBar } from 'expo-status-bar';
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  Dimensions,
+  AppState,
+  Alert,
+} from "react-native";
+import { useRouter } from "expo-router";
+import * as SecureStore from "expo-secure-store";
+import { useSelector } from "react-redux";
+import { RootState } from "@/features/strore";
+import { getAsyncStorageData } from "@/features/slices/auth/AuthSlice";
+import { checkTokenAndLogout } from "@/hooks/checkTokenAndLogout";
+import { StatusBar } from "expo-status-bar";
 
 const WelcomeScreen = () => {
-	const router = useRouter();
-	const { width } = Dimensions.get('window');
+  const router = useRouter();
+  const { width } = Dimensions.get("window");
+  //  console.log('router--->',router);
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await getAsyncStorageData("token");
 
+      // Check token validity, and if invalid, handle logout
+      checkTokenAndLogout(token);
+    };
 
-		useEffect(() => {
-			const checkToken = async () => {
-				const token = await getAsyncStorageData('token');
+    checkToken();
+  }, []);
 
-				// Check token validity, and if invalid, handle logout
-				checkTokenAndLogout(token);
-			};
+  const handleVerify = async () => {
+    // Alert.alert("Verify Button Pressed");
+    try {
+      // Check for the token in Secure Store
+      // const token = await SecureStore.getItemAsync('token');
+      const token = await getAsyncStorageData("token");
+      if (token) {
+        // Navigate to main tabs if token exists
+        router.replace("/(tabs)");
+      } else {
+        // Navigate to login page if token does not exist
+        router.replace("/auth/Login");
+      }
+    } catch (error) {
+      console.error("Error verifying token:", error);
+    }
+  };
 
-			checkToken();
-		}, []);
+  return (
+    <SafeAreaView className="flex-1 bg-white">
+      {/* Main Content Container */}
+      <StatusBar barstyle="dark" />
+      <View className="flex-1 justify-center items-center px-4">
+        {/* Logo Section */}
+        <View className="justify-center items-center mt-80 mb-32">
+          <Image
+            source={require("@/assets/solutionprovider_logo-removebg-preview.png")}
+            style={{
+              width: width * 0.8,
+              height: undefined,
+              aspectRatio: 5.5,
+            }}
+            resizeMode="contain"
+          />
+        </View>
 
-	const handleVerify = async () => {
-		try {
-			// Check for the token in Secure Store
-			// const token = await SecureStore.getItemAsync('token');
-			const token = await getAsyncStorageData('token');
-			if (token) {
-				// Navigate to main tabs if token exists
-				router.push('/(tabs)');
-			} else {
-				// Navigate to login page if token does not exist
-				router.push('/auth/Login');
-			}
-		} catch (error) {
-			console.error('Error verifying token:', error);
-		}
-	};
+        {/* Welcome Text Section */}
+        <View className="items-center mb-12">
+          <Image
+            source={require("@/assets/varify_your_identity.png")}
+            style={{
+              width: width * 0.5,
+              height: undefined,
+              aspectRatio: 3,
+              resizeMode: "contain",
+            }}
+          />
+        </View>
 
+        {/* Verify Button */}
+        <TouchableOpacity
+          onPress={handleVerify}
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Image
+            source={require("@/assets/varify_button.png")}
+            style={{
+              width: width * 0.7,
+              height: undefined,
+              aspectRatio: 3,
+              resizeMode: "contain",
+            }}
+          />
+        </TouchableOpacity>
 
-	return (
-		<SafeAreaView className="flex-1 bg-white">
-			{/* Main Content Container */}
-			{/* <StatusBar barstyle='dark-contest'/> */}
-			<View className="flex-1 justify-center items-center px-4">
-				{/* Logo Section */}
-				<View className="justify-center items-center mt-80 mb-32">
-					<Image
-						source={require('@/assets/solutionprovider_logo-removebg-preview.png')}
-						style={{
-							width: width * 0.8,
-							height: undefined,
-							aspectRatio: 5.5,
-						}}
-						resizeMode="contain"
-					/>
-				</View>
-
-				{/* Welcome Text Section */}
-				<View className="items-center mb-12">
-					<Image
-						source={require('@/assets/varify_your_identity.png')}
-						style={{
-							width: width * 0.5,
-							height: undefined,
-							aspectRatio: 3,
-							resizeMode: 'contain',
-						}}
-					/>
-				</View>
-
-				{/* Verify Button */}
-				<TouchableOpacity
-					onPress={handleVerify}
-					style={{
-						justifyContent: 'center',
-						alignItems: 'center',
-					}}
-				>
-					<Image
-						source={require('@/assets/varify_button.png')}
-						style={{
-							width: width * 0.7,
-							height: undefined,
-							aspectRatio: 3,
-							resizeMode: 'contain',
-						}}
-					/>
-				</TouchableOpacity>
-
-				{/* Footer Text */}
-				<Text className="text-xs p-2 text-center text-sky-700 mt-4">
-					© Solution Provider reserves all rights to this app under copyright
-					law.
-				</Text>
-			</View>
-		</SafeAreaView>
-	);
+        {/* Footer Text */}
+        <Text className="text-xs p-2 text-center text-sky-700 mt-4">
+          © Solution Provider reserves all rights to this app under copyright
+          law.
+        </Text>
+      </View>
+    </SafeAreaView>
+  );
 };
 
 export default WelcomeScreen;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React from "react";
+// import { Text, View } from "react-native";
+// import { SafeAreaView } from "react-native-safe-area-context";
+
+
+// const WelcomeScreen = () => {
+ 
+
+
+//   return (
+//     <SafeAreaView style={{ flex: 1, backgroundColor: "black"}}>
+//      <View ><Text style={{ color:"white",fontSize:45,fontFamily:"bold" }}>this is welcome screen</Text></View>
+//      <View><Text style={{ color:"green",fontSize:45,fontFamily:"bold" }}>this is welcome screen</Text></View>
+//     </SafeAreaView>
+//   );
+// };
+
+// export default WelcomeScreen;
+
+
+
+
+
+

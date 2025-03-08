@@ -137,14 +137,14 @@ export default function App() {
 					component={CallLogsScreen}
 				/>
 			</CurvedBottomBarExpo.Navigator>
-			<StatusBar
+			{/* <StatusBar
 				style={colorScheme === 'dark' ? 'light' : 'dark'}
 				backgroundColor={
 					colorScheme === 'dark'
 						? paperTheme.colors.background
 						: paperTheme.colors.background
 				}
-			/>
+			/> */}
 		</SafeAreaView>
 	);
 }

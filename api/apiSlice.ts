@@ -11,8 +11,10 @@ console.time('apiSlice');
 const apiSlice = createApi({
 	reducerPath: 'api',
 	baseQuery: fetchBaseQuery({
-		baseUrl: 'https://crm.solutionprovider.com.bd/api',
-		prepareHeaders: async (headers, { getState }) => {
+		// baseUrl: 'https://crm.solutionprovider.com.bd/api',
+		// baseUrl:'http://192.168.68.130:3000',
+		baseUrl:'http://192.168.68.130:5000',
+ 		prepareHeaders: async (headers, { getState }) => {
 			// Get token from auth state
 			// const token = (getState() as RootState).auth.token;
 			const token = await getAsyncStorageData('token');

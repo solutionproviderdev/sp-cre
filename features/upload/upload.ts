@@ -11,6 +11,7 @@ interface UploadMultiResponse {
 
 // Extend the apiSlice with upload endpoints
 const uploadApi = apiSlice.injectEndpoints({
+	
 	endpoints: builder => ({
 		// Upload image endpoint
 		uploadImage: builder.mutation<UploadResponse, FormData>({
@@ -48,7 +49,7 @@ const uploadApi = apiSlice.injectEndpoints({
 			}),
 		}),
 	}),
-	overrideExisting: false,
+	overrideExisting: true,
 });
 
 // Export the auto-generated hooks for usage in functional components

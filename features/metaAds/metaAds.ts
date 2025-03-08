@@ -28,6 +28,7 @@ export interface ProductAdForLead {
 }
 
 export const productAdsApi = apiSlice.injectEndpoints({
+ 
 	endpoints: builder => ({
 		// GET /api/ads - Get all product ads
 		getAllProductAds: builder.query<ProductAd[], void>({
@@ -106,7 +107,7 @@ export const productAdsApi = apiSlice.injectEndpoints({
 			],
 		}),
 	}),
-	overrideExisting: false,
+	overrideExisting: true,
 });
 
 export const {

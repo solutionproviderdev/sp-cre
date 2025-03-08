@@ -1,12 +1,43 @@
+// {
+//   "extends": "expo/tsconfig.base",
+//   "compilerOptions": {
+//     "strict": true,
+//     "paths": {
+//       "@/*": [
+//         "./*"
+//       ]
+//     }
+//   },
+//   "include": [
+//     "**/*.ts",
+//     "**/*.tsx",
+//     ".expo/types/**/*.ts",
+//     "expo-env.d.ts",
+//     "nativewind-env.d.ts"
+//   ]
+// }
+
+
+
+
+
+
+
+
+
+
+
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    "jsx": "react-native",  // ✅ FIXED: Enables JSX in React Native
     "paths": {
-      "@/*": [
-        "./*"
-      ]
-    }
+      "@/*": ["./*"]  // ✅ FIXED: Ensures module resolution works correctly
+    },
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true
   },
   "include": [
     "**/*.ts",

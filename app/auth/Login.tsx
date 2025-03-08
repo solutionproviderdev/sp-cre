@@ -14,6 +14,7 @@ import { useRouter } from 'expo-router';
 import { useLoginUserMutation } from '@/features/slices/auth/AuthAPI';
 import { useDispatch } from 'react-redux';
 import { setUser } from '@/features/slices/auth/AuthSlice';
+import { StatusBar } from 'expo-status-bar';
 
 // Import images
 const salesBgImg = require('@/assets/salesBgImg.jpg');
@@ -58,6 +59,7 @@ export default function LoginScreen() {
 
 	return (
 		<ImageBackground source={salesBgImg} className="flex-1" resizeMode="cover">
+			<StatusBar style='auto' />
 			<View className="flex-1 bg-opacity-50 items-center justify-center">
 				{/* Login Card */}
 				<View className="bg-gray-200 w-11/12 max-w-md p-6 rounded-3xl">
