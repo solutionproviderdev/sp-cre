@@ -13,7 +13,7 @@ import {
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import moment from 'moment';
-import * as ImagePicker from 'expo-image-picker';
+// import * as ImagePicker from 'expo-image-picker';
 import {
 	useGetConversationMessagesQuery,
 	useGetSingleLeadQuery,
@@ -103,42 +103,43 @@ export default function ConversationInboxScreen() {
 
 	// Image upload using expo-image-picker and uploadMultipleImages
 	const handleImageUpload = async () => {
-		try {
-			const permissionResult =
-				await ImagePicker.requestMediaLibraryPermissionsAsync();
-			if (!permissionResult.granted) {
-				showErrorToast('Permission to access camera roll is required!');
-				return;
-			}
-			const result = await ImagePicker.launchImageLibraryAsync({
-				mediaTypes: ImagePicker.MediaTypeOptions.Images,
-				allowsMultipleSelection: true,
-				quality: 0.7,
-			});
-			if (!result.canceled) {
-				// Create a new FormData instance and append each selected image.
-				const formData = new FormData();
-				(result.assets || []).forEach(asset => {
-					// Note: Adjust field name and file details as needed.
-					formData.append('images', {
-						uri: asset.uri,
-						name: asset.uri.split('/').pop() || `image.jpg`,
-						type: 'image/jpeg',
-					} as any);
-				});
-				// Call the upload function.
-				const response = await uploadMultipleImages(formData).unwrap();
-				if (response?.fileUrls) {
-					// Replace selectedImages with the returned URLs.
-					setSelectedImages(response.fileUrls);
-				} else {
-					showErrorToast('Image upload failed.');
-				}
-			}
-		} catch (error) {
-			console.error('Error uploading images:', error);
-			showErrorToast('Failed to upload images.');
-		}
+		// try {
+		// 	const permissionResult =
+		// 		await ImagePicker.requestMediaLibraryPermissionsAsync();
+		// 	if (!permissionResult.granted) {
+		// 		showErrorToast('Permission to access camera roll is required!');
+		// 		return;
+		// 	}
+		// 	const result = await ImagePicker.launchImageLibraryAsync({
+		// 		mediaTypes: ImagePicker.MediaTypeOptions.Images,
+		// 		allowsMultipleSelection: true,
+		// 		quality: 0.7,
+		// 	});
+		// 	if (!result.canceled) {
+		// 		// Create a new FormData instance and append each selected image.
+		// 		const formData = new FormData();
+		// 		(result.assets || []).forEach(asset => {
+		// 			// Note: Adjust field name and file details as needed.
+		// 			formData.append('images', {
+		// 				uri: asset.uri,
+		// 				name: asset.uri.split('/').pop() || `image.jpg`,
+		// 				type: 'image/jpeg',
+		// 			} as any);
+		// 		});
+		// 		// Call the upload function.
+		// 		const response = await uploadMultipleImages(formData).unwrap();
+		// 		if (response?.fileUrls) {
+		// 			// Replace selectedImages with the returned URLs.
+		// 			setSelectedImages(response.fileUrls);
+		// 		} else {
+		// 			showErrorToast('Image upload failed.');
+		// 		}
+		// 	}
+		// } catch (error) {
+		// 	console.error('Error uploading images:', error);
+		// 	showErrorToast('Failed to upload images.');
+		// }
+		console.log('Image upload is disabled for now.');
 	};
 
 	// {

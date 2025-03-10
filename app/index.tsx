@@ -59,7 +59,7 @@ const WelcomeScreen = () => {
         <View className="justify-center items-center mt-80 mb-32">
           <Image
             source={require("@/assets/solutionprovider_logo-removebg-preview.png")}
-            style={{
+            style={{    
               width: width * 0.8,
               height: undefined,
               aspectRatio: 5.5,
@@ -120,33 +120,4 @@ export default WelcomeScreen;
 
 
 
-
-
-
-
-
-
-// import React from "react";
-// import { Text, View } from "react-native";
-// import { SafeAreaView } from "react-native-safe-area-context";
-
-
-// const WelcomeScreen = () => {
  
-
-
-//   return (
-//     <SafeAreaView style={{ flex: 1, backgroundColor: "black"}}>
-//      <View ><Text style={{ color:"white",fontSize:45,fontFamily:"bold" }}>this is welcome screen</Text></View>
-//      <View><Text style={{ color:"green",fontSize:45,fontFamily:"bold" }}>this is welcome screen</Text></View>
-//     </SafeAreaView>
-//   );
-// };
-
-// export default WelcomeScreen;
-
-
-
-
-
-
