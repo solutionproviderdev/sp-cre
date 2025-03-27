@@ -22,6 +22,8 @@ const HomeScreen = () => {
 	const { data, error, isLoading, refetch } = useGetAllConversationsQuery({
 		page,
 		limit,
+	}, {
+		refetchOnMountOrArgChange: true,
 	});
 
 	// const [markAsSeen] = useMarkAsSeenMutation();

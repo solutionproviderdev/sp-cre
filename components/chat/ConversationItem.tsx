@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {  Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Conversation } from '@/types/Conversation';
 import moment from 'moment';
 import { FontAwesome } from '@expo/vector-icons';
@@ -13,6 +13,7 @@ interface ConversationItemProps {
 const ConversationItem = ({ item }: ConversationItemProps) => {
 	const isMessageSeen = item.messagesSeen;
 	const [markAsSeen] = useMarkAsSeenMutation();
+
 
 	// Calculate time left similar to the web version
 	const lastCustomerMessageTime = item.lastCustomerMessageTime;
@@ -28,9 +29,13 @@ const ConversationItem = ({ item }: ConversationItemProps) => {
 	}
 
 	const handleSelectConversation = async (selectedLeadId: string) => {
-		// Navigate to conversation details (Placeholder for now)
-		router.push(`/conversations/${selectedLeadId}`);
-		await markAsSeen({ id: selectedLeadId });
+	
+		
+	// Navigate to conversation details (Placeholder for now)
+	router.push(`/conversations/${selectedLeadId}`);
+	await markAsSeen({ id: selectedLeadId });
+
+
 	};
 
 	return (
@@ -40,9 +45,8 @@ const ConversationItem = ({ item }: ConversationItemProps) => {
 		>
 			{/* Page Profile Picture */}
 			<View
-				className={`w-14 h-14 rounded-full overflow-hidden ${
-					isMessageSeen ? '' : 'border-2 border-primary'
-				}`}
+				className={`w-14 h-14 rounded-full overflow-hidden ${isMessageSeen ? '' : 'border-2 border-primary'
+					}`}
 			>
 				<Image
 					source={{ uri: item.pageInfo?.pageProfilePicture }}
@@ -55,9 +59,8 @@ const ConversationItem = ({ item }: ConversationItemProps) => {
 				{/* Name, Time Left, and Status */}
 				<View className="flex-row items-center justify-between">
 					<Text
-						className={`text-base ${
-							isMessageSeen ? 'text-gray-500' : 'text-primary font-bold'
-						}`}
+						className={`text-base ${isMessageSeen ? 'text-gray-500' : 'text-primary font-bold'
+							}`}
 					>
 						{item.name}
 					</Text>
@@ -75,9 +78,8 @@ const ConversationItem = ({ item }: ConversationItemProps) => {
 									style={{
 										color: timeLeftText === 'Expired' ? '#941F1F' : '#046289',
 									}}
-									className={`text-xs ${
-										timeLeftText === 'Expired' ? 'font-bold' : ''
-									} ml-1`}
+									className={`text-xs ${timeLeftText === 'Expired' ? 'font-bold' : ''
+										} ml-1`}
 								>
 									{timeLeftText}
 								</Text>
@@ -98,9 +100,8 @@ const ConversationItem = ({ item }: ConversationItemProps) => {
 				{/* Last Message and Time */}
 				<View className="flex-row items-center justify-between">
 					<Text
-						className={`text-sm max-w-xs ${
-							isMessageSeen ? 'text-gray-500' : 'text-primary font-bold'
-						}`}
+						className={`text-sm max-w-xs ${isMessageSeen ? 'text-gray-500' : 'text-primary font-bold'
+							}`}
 						numberOfLines={1}
 						ellipsizeMode="tail"
 					>

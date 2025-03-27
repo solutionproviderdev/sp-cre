@@ -76,6 +76,14 @@ export default function ConversationInboxScreen() {
 		scrollViewRef.current?.scrollToEnd({ animated: true });
 	}, [messages]);
 
+	// useEffect(() => {
+	// 	// Delay to ensure messages are rendered
+	// 	const timer = setTimeout(() => {
+	// 	  scrollViewRef.current?.scrollToEnd({ animated: true });
+	// 	}, 100);
+	// 	return () => clearTimeout(timer);
+	//   }, []);
+
 	// Clear inputs when lead changes
 	useEffect(() => {
 		setNewMessage('');

@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "my-app",
+    "name": "SP CRE",
     "slug": "my-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/Sp-home-icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": false,
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/Solution-Provider-logo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.solutionprovider.myapp",
@@ -22,17 +22,20 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/icon.png"
+      "favicon": "./assets/Sp-home-icon.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#232323",
+          "image": "./assets/Solution-Provider-logo.png",
+          "dark": {
+            "image": "./assets/Solution-Provider-logo.png",
+            "backgroundColor": "#000000"
+          },
+          "imageWidth": 200
         }
       ],
       [
@@ -52,14 +55,14 @@
         "initialRouteName": "index"
       },
       "eas": {
-        "projectId": "39c88ce8-441c-4aae-a262-bcd16d01c385"
+        "projectId": "87b122ed-97e5-43ac-85ce-7a7347ed71ab"
       }
     },
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/bfb1a96f-cd00-4870-8f29-1898f3405abe"
+      "url": "https://u.expo.dev/87b122ed-97e5-43ac-85ce-7a7347ed71ab"
     }
   }
 }

@@ -9,6 +9,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 console.time('apiSlice');
 const apiSlice = createApi({
+	
 	reducerPath: 'api',
 	baseQuery: fetchBaseQuery({
 		baseUrl: 'https://crm.solutionprovider.com.bd/api',
@@ -28,8 +29,10 @@ const apiSlice = createApi({
 			return headers;
 		},
 	}),
+	tagTypes:['ProductAd','Lead'],
 	endpoints: () => ({}),
 });
+
 console.timeEnd('apiSlice');
 
 export default apiSlice;
