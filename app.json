@@ -4,7 +4,7 @@
     "slug": "my-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/Sp-home-icon.png",
+    "icon": "./assets/Sp-icon-home.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": false,
@@ -22,7 +22,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/Sp-home-icon.png"
+      "favicon": "./assets/Solution-Provider-logo.png"
     },
     "plugins": [
       "expo-router",
