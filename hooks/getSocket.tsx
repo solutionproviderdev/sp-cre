@@ -7,6 +7,9 @@ export const connectSocket = (): Socket => {
 	if (!socket) {
 		socket = io('https://crm.solutionprovider.com.bd', {
 			path: '/socket.io',
+			// ,'http://192.168.0.103:5000'
+			// 'http://192.168.68.117:5000',
+			// 'https://crm.solutionprovider.com.bd'
 			reconnectionDelay: 1000,
 			reconnection: true,
 			reconnectionAttempts: 10,

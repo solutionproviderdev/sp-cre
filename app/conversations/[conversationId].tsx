@@ -13,7 +13,9 @@ import {
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import moment from 'moment';
+
 import * as ImagePicker from 'expo-image-picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 import {
 	useGetConversationMessagesQuery,
 	useGetSingleLeadQuery,
@@ -24,10 +26,19 @@ import { useGetProductAdsForLeadQuery } from '@/features/metaAds/metaAds';
 import Chats from '@/components/Chats';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ActivityIndicator } from 'react-native-paper';
+import MobileCreStatus from '@/components/CREStatus/MobileCreStatus';
 
 export default function ConversationInboxScreen() {
 	const { conversationId } = useLocalSearchParams();
 	const router = useRouter();
+
+	// Dropdown states for lead status
+	const [dropdownOpen, setDropdownOpen] = useState(false);
+	const [dropdownValue, setDropdownValue] = useState<string | null>(null);
+	const [dropdownItems, setDropdownItems] = useState([
+		{ label: 'Meeting Fixed', value: 'Meeting Fixed' },
+		// Add additional status options here when needed in the future
+	]);
 
 	// Local states
 	const [messages, setMessages] = useState<any[]>([]);
@@ -38,6 +49,8 @@ export default function ConversationInboxScreen() {
 	const [toastMessage, setToastMessage] = useState('');
 	const [showToast, setShowToast] = useState(false);
 	const toastOpacity = useRef(new Animated.Value(0)).current;
+
+
 
 	// Ref for auto-scrolling
 	const scrollViewRef = useRef<ScrollView>(null);
@@ -75,14 +88,6 @@ export default function ConversationInboxScreen() {
 	useEffect(() => {
 		scrollViewRef.current?.scrollToEnd({ animated: true });
 	}, [messages]);
-
-	// useEffect(() => {
-	// 	// Delay to ensure messages are rendered
-	// 	const timer = setTimeout(() => {
-	// 	  scrollViewRef.current?.scrollToEnd({ animated: true });
-	// 	}, 100);
-	// 	return () => clearTimeout(timer);
-	//   }, []);
 
 	// Clear inputs when lead changes
 	useEffect(() => {
@@ -218,14 +223,12 @@ export default function ConversationInboxScreen() {
 							<Ionicons name="call" size={24} color="#046289" />
 						</TouchableOpacity>
 					)}
-					{lead?.status && (
-						<View className="ml-2">
-							<Text className="text-base text-white rounded-sm px-1.5 py-0.5 bg-[#046289]">
-								{lead.status}
-							</Text>
-						</View>
-					)}
-					<TouchableOpacity className="ml-2 p-1" onPress={() => {}}>
+					<View className="ml-2">
+						<MobileCreStatus currentStatus={lead?.status ?? 'N/A'} leadId={lead?._id ?? ''}  />
+					</View>
+
+
+					<TouchableOpacity className="ml-2 p-1" onPress={() => { }}>
 						<FontAwesome name="info-circle" size={24} color="#046289" />
 					</TouchableOpacity>
 				</View>

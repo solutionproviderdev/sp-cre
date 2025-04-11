@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import apiSlice from '../api/apiSlice';
 import authReducer from './slices/auth/AuthSlice';
+import searchReducer from './slices/searchSlice'; 
 
 const store = configureStore({
 	reducer: {
 		[apiSlice?.reducerPath]: apiSlice?.reducer,
 		auth: authReducer,
+		search: searchReducer,
 	},
 	middleware: getDefaultMiddleware =>
 		getDefaultMiddleware({ serializableCheck: false }).concat(

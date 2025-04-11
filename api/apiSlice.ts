@@ -9,13 +9,17 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 console.time('apiSlice');
 const apiSlice = createApi({
-	
+
 	reducerPath: 'api',
 	baseQuery: fetchBaseQuery({
+		//CRM URL
 		baseUrl: 'https://crm.solutionprovider.com.bd/api',
-		// baseUrl:'http://192.168.68.130:3000',
-		// baseUrl:'http://192.168.68.130:5000',
- 		prepareHeaders: async (headers, { getState }) => {
+		
+		// //Solution Provider wifi
+		// baseUrl: 'http://192.168.68.117:5000',
+		//Rayhan Home Wifi
+		// baseUrl:'http://192.168.0.103:5000',
+		prepareHeaders: async (headers, { getState }) => {
 			// Get token from auth state
 			// const token = (getState() as RootState).auth.token;
 			const token = await getAsyncStorageData('token');
@@ -29,7 +33,7 @@ const apiSlice = createApi({
 			return headers;
 		},
 	}),
-	tagTypes:['ProductAd','Lead'],
+	tagTypes: ['ProductAd', 'Lead', 'Meeting'],
 	endpoints: () => ({}),
 });
 

@@ -11,12 +11,12 @@ interface ConversationItemProps {
 }
 
 const ConversationItem = ({ item }: ConversationItemProps) => {
-	const isMessageSeen = item.messagesSeen;
+	const isMessageSeen = item?.messagesSeen;
 	const [markAsSeen] = useMarkAsSeenMutation();
 
 
 	// Calculate time left similar to the web version
-	const lastCustomerMessageTime = item.lastCustomerMessageTime;
+	const lastCustomerMessageTime = item?.lastCustomerMessageTime;
 	let timeLeftText = '';
 	if (lastCustomerMessageTime) {
 		const now = moment();
@@ -49,7 +49,7 @@ const ConversationItem = ({ item }: ConversationItemProps) => {
 					}`}
 			>
 				<Image
-					source={{ uri: item.pageInfo?.pageProfilePicture }}
+					source={{ uri: item?.pageInfo?.pageProfilePicture }}
 					className="w-full h-full"
 				/>
 			</View>
@@ -62,7 +62,7 @@ const ConversationItem = ({ item }: ConversationItemProps) => {
 						className={`text-base ${isMessageSeen ? 'text-gray-500' : 'text-primary font-bold'
 							}`}
 					>
-						{item.name}
+						{item?.name}
 					</Text>
 					<View className="flex-row items-center gap-2">
 						{lastCustomerMessageTime && (
@@ -86,11 +86,11 @@ const ConversationItem = ({ item }: ConversationItemProps) => {
 							</View>
 						)}
 						<Text className="text-xs text-white bg-primary px-2 py-1 rounded-lg">
-							{item.status}
+							{item?.status}
 						</Text>
-						{item.creName && (
+						{item?.creName && (
 							<Image
-								source={{ uri: item.creName.profilePicture }}
+								source={{ uri: item?.creName?.profilePicture }}
 								className="w-6 h-6 rounded-full border-2 border-primary"
 							/>
 						)}
@@ -105,10 +105,10 @@ const ConversationItem = ({ item }: ConversationItemProps) => {
 						numberOfLines={1}
 						ellipsizeMode="tail"
 					>
-						{item.lastMessage}
+						{item?.lastMessage}
 					</Text>
 					<Text className="text-xs text-gray-500">
-						{moment(item.lastMessageTime).fromNow()}
+						{moment(item?.lastMessageTime).fromNow()}
 					</Text>
 				</View>
 			</View>

@@ -49,7 +49,7 @@ export default function LoginScreen() {
 			dispatch(setUser({ user, token }));
 
 			// Navigate to the main page
-			router.push('/(tabs)');
+			router.replace('/(tabs)');
 		} catch (error) {
 			Alert.alert('Login Failed', error?.data?.msg || 'Something went wrong.');
 		} finally {

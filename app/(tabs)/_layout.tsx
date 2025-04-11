@@ -18,8 +18,8 @@ import { StatusBar } from 'expo-status-bar';
 import { darkTheme, lightTheme } from '@/constants/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import TopHeader from '@/components/TopHeader';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/features/strore';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import store, { RootState } from '@/features/strore';
 import { logoutUser } from '@/features/slices/auth/AuthSlice';
 import { router } from 'expo-router';
 
@@ -66,17 +66,16 @@ export default function App() {
 			<View className="items-center">
 				{renderIcon(routeName, selectedTab)}
 				<Text
-					className={`text-xs font-semibold ${
-						routeName === selectedTab ? 'text-primary' : 'text-gray-500'
-					}`}
+					className={`text-xs font-semibold ${routeName === selectedTab ? 'text-primary' : 'text-gray-500'
+						}`}
 				>
 					{routeName === 'home'
 						? 'Home'
 						: routeName === 'meetings'
-						? 'Meetings'
-						: routeName === 'follow-up'
-						? 'Follow-Up'
-						: 'Calls'}
+							? 'Meetings'
+							: routeName === 'follow-up'
+								? 'Follow-Up'
+								: 'Calls'}
 				</Text>
 			</View>
 		</TouchableOpacity>
@@ -92,52 +91,53 @@ export default function App() {
 	}
 
 	return (
-		<SafeAreaView  className="flex-1">
-			<TopHeader userData={user} handleLogout={handleLogout} />
-			<CurvedBottomBarExpo.Navigator
-				type="DOWN"
-				screenOptions={{
-					headerShown: false,
-				}}
-				style={{ backgroundColor: '#D9D9D9' }}
-				height={65}
-				circleWidth={60}
-				circlePosition="center"
-				bgColor="#D9D9D9"
-				initialRouteName="home"
-				borderTopLeftRight
-				renderCircle={({ selectedTab, navigate }) => (
-					<View className="bg-primary w-14 h-14 rounded-full items-center justify-center -mt-6 shadow-lg">
-						<TouchableOpacity onPress={() => Alert.alert('Add Button Pressed')}>
-							<Ionicons name="add-outline" size={28} color="#FFF" />
-						</TouchableOpacity>
-					</View>
-				)}
-				tabBar={renderTabBar}
-			>
-				<CurvedBottomBarExpo.Screen
-					name="home"
-					position="LEFT"
-					component={HomeScreen}
-					headerShown={true}
-				/>
-				<CurvedBottomBarExpo.Screen
-					name="meetings"
-					position="LEFT"
-					component={MeetingsScreen}
-				/>
-				<CurvedBottomBarExpo.Screen
-					name="follow-up"
-					position="RIGHT"
-					component={FollowUpScreen}
-				/>
-				<CurvedBottomBarExpo.Screen
-					name="calls"
-					position="RIGHT"
-					component={CallLogsScreen}
-				/>
-			</CurvedBottomBarExpo.Navigator>
-			{/* <StatusBar
+		<Provider store={store}>
+			<SafeAreaView className="flex-1">
+				<TopHeader userData={user} handleLogout={handleLogout} />
+				<CurvedBottomBarExpo.Navigator
+					type="DOWN"
+					screenOptions={{
+						headerShown: false,
+					}}
+					style={{ backgroundColor: '#D9D9D9' }}
+					height={65}
+					circleWidth={60}
+					circlePosition="center"
+					bgColor="#D9D9D9"
+					initialRouteName="home"
+					borderTopLeftRight
+					renderCircle={({ selectedTab, navigate }) => (
+						<View className="bg-primary w-14 h-14 rounded-full items-center justify-center -mt-6 shadow-lg">
+							<TouchableOpacity onPress={() => Alert.alert('Add Button Pressed')}>
+								<Ionicons name="add-outline" size={28} color="#FFF" />
+							</TouchableOpacity>
+						</View>
+					)}
+					tabBar={renderTabBar}
+				>
+					<CurvedBottomBarExpo.Screen
+						name="home"
+						position="LEFT"
+						component={HomeScreen}
+						headerShown={true}
+					/>
+					<CurvedBottomBarExpo.Screen
+						name="meetings"
+						position="LEFT"
+						component={MeetingsScreen}
+					/>
+					<CurvedBottomBarExpo.Screen
+						name="follow-up"
+						position="RIGHT"
+						component={FollowUpScreen}
+					/>
+					<CurvedBottomBarExpo.Screen
+						name="calls"
+						position="RIGHT"
+						component={CallLogsScreen}
+					/>
+				</CurvedBottomBarExpo.Navigator>
+				{/* <StatusBar
 				style={colorScheme === 'dark' ? 'light' : 'dark'}
 				backgroundColor={
 					colorScheme === 'dark'
@@ -145,6 +145,7 @@ export default function App() {
 						: paperTheme.colors.background
 				}
 			/> */}
-		</SafeAreaView>
+			</SafeAreaView>
+		</Provider>
 	);
 }
