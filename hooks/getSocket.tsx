@@ -5,11 +5,15 @@ let socket: Socket | undefined;
 
 export const connectSocket = (): Socket => {
 	if (!socket) {
-		socket = io('https://crm.solutionprovider.com.bd', {
+		socket = io('http://192.168.193.180:5000', {
 			path: '/socket.io',
+			//Rayhan Home Wifi
 			// ,'http://192.168.0.103:5000'
+			// solution provider wifi
 			// 'http://192.168.68.117:5000',
 			// 'https://crm.solutionprovider.com.bd'
+			// Rayhan mobile
+			// 'http://192.168.193.180:5000'
 			reconnectionDelay: 1000,
 			reconnection: true,
 			reconnectionAttempts: 10,

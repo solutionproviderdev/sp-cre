@@ -13,12 +13,14 @@ const apiSlice = createApi({
 	reducerPath: 'api',
 	baseQuery: fetchBaseQuery({
 		//CRM URL
-		baseUrl: 'https://crm.solutionprovider.com.bd/api',
+		// baseUrl: 'https://crm.solutionprovider.com.bd/api',
 		
 		// //Solution Provider wifi
 		// baseUrl: 'http://192.168.68.117:5000',
 		//Rayhan Home Wifi
-		// baseUrl:'http://192.168.0.103:5000',
+		// baseUrl:'http://192.168.0.104:5000',
+		// Rayhan Mobile
+		baseUrl:'http://192.168.193.180:5000',
 		prepareHeaders: async (headers, { getState }) => {
 			// Get token from auth state
 			// const token = (getState() as RootState).auth.token;
