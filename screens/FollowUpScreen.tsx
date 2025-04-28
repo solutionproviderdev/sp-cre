@@ -1,15 +1,16 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, Text, TouchableOpacity, View, AppState, Alert } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 import ReminderCard from '@/components/follow-up/RemainderCard';
+import CallLog from 'react-native-call-log';
+import { request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
 const FollowUpScreen = () => {
-	// Example state values (replace with your own logic)
-	const [dateRange, setDateRange] = useState([new Date(), new Date()]);
-	const [cre, setCre] = useState(null);
-	const [sales, setSales] = useState(null);
+	const [callInProgress, setCallInProgress] = useState(false);
+	// Store the number that's dialed
+	const [calledNumber, setCalledNumber] = useState<string | null>(null);
 
-	// Dummy data: Array of dummy reminders
+	// Dummy reminders and counts here...
 	const dummyReminders = [
 		{
 			id: 1,
@@ -158,7 +159,6 @@ const FollowUpScreen = () => {
 		},
 	];
 
-	// Additional dummy numeric values
 	const pendingCount = 5;
 	const missedCount = 3;
 	const completeCount = 8;
@@ -170,8 +170,7 @@ const FollowUpScreen = () => {
 	const formattedTime = '10:30 AM';
 	const commentTimestamp = '5 mins ago';
 
-	const getStatusColor = (status) => {
-		// Return a color based on the status.
+	const getStatusColor = (status: string) => {
 		if (status === 'Late') return '#f44336';
 		if (status === 'Pending') return '#ff9800';
 		return '#2196f3';
@@ -181,7 +180,78 @@ const FollowUpScreen = () => {
 		console.log('Search pressed');
 	};
 
-	// Data for Pie Chart from react-native-chart-kit
+	// Listen for AppState changes: When returning from call screen verify and fetch call logs
+	useEffect(() => {
+		const subscription = AppState.addEventListener('change', async (nextState) => {
+			if (nextState === 'active' && callInProgress) {
+				Alert.alert(
+					'Follow up',
+					'Did you complete the follow-up call?',
+					[
+						{
+							text: 'No',
+							onPress: () => {
+								console.log('Follow up not completed');
+								setCallInProgress(false);
+								setCalledNumber(null);
+							},
+							style: 'cancel',
+						},
+						// Inside your Alert "Yes" callback:
+						{
+							text: 'Yes',
+							onPress: async () => {
+								console.log('Follow up completed');
+								try {
+									// Request the runtime permission for READ_CALL_LOG
+									const permissionResult = await request(PERMISSIONS.ANDROID.READ_CALL_LOG);
+									if (permissionResult === RESULTS.GRANTED) {
+										// Load all call logs
+										const logs = await CallLog.loadAll();
+										// Filter logs only for the dialed number
+										const filteredLogs = logs.filter(log => log.phoneNumber === calledNumber);
+										if (filteredLogs.length > 0) {
+											// Sort logs descending by timestamp (latest first)
+											const latestLog = filteredLogs.sort((a, b) => Number(b.timestamp) - Number(a.timestamp))[0];
+
+											// Format timestamp to 12-hour time format
+											const callDate = new Date(Number(latestLog.timestamp));
+											const formattedTime = callDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+
+											// Convert duration (assumed to be in seconds) to minutes and seconds
+											const durationInSeconds = parseInt(latestLog.duration, 10);
+											const minutes = Math.floor(durationInSeconds / 60);
+											const seconds = durationInSeconds % 60;
+											const formattedDuration = `${minutes} min ${seconds} sec`;
+
+											console.log(`Number: ${latestLog.phoneNumber}`);
+											console.log(`Call Time: ${formattedTime}`);
+											console.log(`Call Type: ${latestLog.type}`);
+											console.log(`Duration: ${formattedDuration}`);
+										} else {
+											console.log('No call logs found for this number.');
+										}
+									} else {
+										console.log('READ_CALL_LOG permission not granted');
+									}
+								} catch (err) {
+									console.error('Error fetching call logs:', err);
+								} finally {
+									setCallInProgress(false);
+									setCalledNumber(null);
+								}
+							},
+						},
+					]
+				);
+			}
+		});
+		return () => {
+			subscription.remove();
+		};
+	}, [callInProgress, calledNumber]);
+
+	// Pie chart data for demonstration
 	const data = [
 		{ name: 'Pending', value: pendingCount, color: 'orange', legendFontColor: '#7F7F7F', legendFontSize: 10 },
 		{ name: 'Missed', value: missedCount, color: 'red', legendFontColor: '#7F7F7F', legendFontSize: 10 },
@@ -199,15 +269,13 @@ const FollowUpScreen = () => {
 
 	return (
 		<ScrollView contentContainerStyle={{ padding: 16 }} className="bg-gray-100">
-			{/* Top Row: Summary Data (left) and Pie Chart (right) */}
+			{/* Summary Section */}
 			<View className="flex-row justify-between mb-4">
-				{/* Summary Data */}
 				<View className="flex-1 justify-center">
 					<Text className="text-xl font-bold">Total: {totalCount}</Text>
 					<Text className="text-xl font-bold">Complete: {completeCount}</Text>
 					<Text className="text-xl font-bold">Follow-Ups: {followUpsLeft}</Text>
 				</View>
-				{/* Pie Chart */}
 				<View className="justify-center items-center">
 					<PieChart
 						data={data}
@@ -221,7 +289,7 @@ const FollowUpScreen = () => {
 				</View>
 			</View>
 
-			{/* Filter Row: Date Range, CRE, and Sales Dropdown */}
+			{/* Filters */}
 			<View className="flex-row justify-between mb-4">
 				<TouchableOpacity className="flex-2 bg-white border border-gray-300 rounded-lg p-3 mr-1 items-center">
 					<Text className="text-gray-600 text-center">Select Date Range</Text>
@@ -234,7 +302,7 @@ const FollowUpScreen = () => {
 				</TouchableOpacity>
 			</View>
 
-			{/* Search Button Row */}
+			{/* Search Button */}
 			<View className="mb-4">
 				<TouchableOpacity onPress={handleSearch} style={{ backgroundColor: "#046289" }} className="rounded-lg p-4 items-center">
 					<Text className="text-white font-bold text-lg">Search</Text>
@@ -244,7 +312,6 @@ const FollowUpScreen = () => {
 			{/* Reminder Cards Section */}
 			<View className="flex-col flex-wrap justify-between gap-4">
 				{dummyReminders.map((item) => (
-
 					<ReminderCard
 						key={item.id}
 						reminder={item.reminder}
@@ -254,6 +321,11 @@ const FollowUpScreen = () => {
 						formattedTime={item.formattedTime}
 						commentTimestamp={item.commentTimestamp}
 						getStatusColor={getStatusColor}
+						onCallInitiated={() => {
+							// Set call flag and store the number that is being called
+							setCallInProgress(true);
+							setCalledNumber(item.reminder.phone[0]);
+						}}
 					/>
 				))}
 			</View>

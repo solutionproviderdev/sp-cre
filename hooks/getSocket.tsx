@@ -5,7 +5,7 @@ let socket: Socket | undefined;
 
 export const connectSocket = (): Socket => {
 	if (!socket) {
-		socket = io('http://192.168.193.180:5000', {
+		socket = io('http://192.168.145.180:5000', {
 			path: '/socket.io',
 			//Rayhan Home Wifi
 			// ,'http://192.168.0.103:5000'

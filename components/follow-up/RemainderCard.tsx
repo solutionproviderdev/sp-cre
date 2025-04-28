@@ -47,6 +47,7 @@ export interface ReminderCardProps {
     formattedTime: string;
     commentTimestamp: string;
     getStatusColor: (status: string) => string;
+    onCallInitiated?: () => void; // <-- new callback prop
 }
 
 // -- ReminderCard Component --
@@ -59,6 +60,7 @@ const ReminderCard: React.FC<ReminderCardProps> = ({
     formattedTime,
     commentTimestamp,
     getStatusColor,
+    onCallInitiated, // <-- added prop here
 }) => {
 
     // Assuming reminder.phone is an array; choose the primary one
@@ -67,8 +69,13 @@ const ReminderCard: React.FC<ReminderCardProps> = ({
     // Function to handle call button press
     const handleCallPress = () => {
         if (!phoneNumber) {
-            Alert   .alert('Error', 'No phone number available');
+            Alert.alert('Error', 'No phone number available');
             return;
+        }
+
+        // Invoke parent callback before making the call
+        if (onCallInitiated) {
+            onCallInitiated();
         }
 
         // Arguments for react-native-phone-call
@@ -128,6 +135,7 @@ const ReminderCard: React.FC<ReminderCardProps> = ({
             {/* Address Section */}
             {reminder.address && (
                 <View className="flex-row items-center mb-2">
+                    
                     <Ionicons name="home" size={16} color="#6B7280" className="mr-1" />
                     <Text className="text-sm">
                         {`${reminder.address.address}, ${reminder.address.area}, ${reminder.address.district}, ${reminder.address.division}`}
